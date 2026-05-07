@@ -51,7 +51,7 @@ public class UserManager(
 			return PasswordVerificationResult.Success;
 		}
 
-		// Для успешной аутентификации требуется совпадение пары логин-пароль в AD и наличие логина в локальной БД
+		// Для успешной аутентификации требуется совпадение пары логин-пароль в AD
 		if (user.AuthenticationType == AuthenticationTypeEnum.ActiveDirectory)
 		{
 			var isUserExists = activeDirectoryGateway.IsExists(userName, password);
