@@ -146,11 +146,25 @@
 
 <div align="center">
 
-### 💡 Этот репозиторий — приглашение к диалогу
+### 💡 Этот репозиторий — приглашение к диа��огу
 
 *Если вас заинтересовал стиль кода или подход к проектированию — буду рад обсудить детали.*
 
-**Автор:** Меньшов А. В. · 2026
+**Автор:** Меньшов Анатолий · 2026
+
+---
+
+### 📬 Контакты для связи
+
+[![Phone](https://img.shields.io/badge/Телефон-+7_(916)_487--23--89-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](tel:+79164872389)
+[![Email](https://img.shields.io/badge/Email-menshov.anatoliy@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:menshov.anatoliy@gmail.com)
+[![Telegram](https://img.shields.io/badge/Telegram-@menshov__anatoliy-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/menshov_anatoliy)
+
+| | |
+|---|---|
+| 📞 **Телефон** | [+7 (916) 487-23-89](tel:+79164872389) |
+| ✉️ **Email** | [menshov.anatoliy@gmail.com](mailto:menshov.anatoliy@gmail.com) |
+| 💬 **Telegram** | [@menshov_anatoliy](https://t.me/menshov_anatoliy) |
 
 </div>
 
