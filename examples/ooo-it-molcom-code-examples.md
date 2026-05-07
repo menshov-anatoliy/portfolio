@@ -1,7 +1,7 @@
 # Примеры кода: организация `OOO-IT-MOLCOM`
 
 Документ собирается автоматически скриптом:
-`/home/runner/work/portfolio/portfolio/tools/collect_org_examples.py`.
+`tools/collect_org_examples.py`.
 
 ## Текущий статус
 
@@ -10,9 +10,9 @@
 ## Как собрать/обновить у себя
 
 ```bash
-python /home/runner/work/portfolio/portfolio/tools/collect_org_examples.py \
+python tools/collect_org_examples.py \
   --org OOO-IT-MOLCOM \
-  --output /home/runner/work/portfolio/portfolio/examples/ooo-it-molcom-code-examples.md
+  --output examples/ooo-it-molcom-code-examples.md
 ```
 
 После запуска с рабочим доступом к GitHub API файл будет заполнен:

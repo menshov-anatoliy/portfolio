@@ -248,7 +248,9 @@ def main() -> None:
 
     markdown = render_markdown(args.org, repositories, snippets, errors)
     output_path = os.path.abspath(args.output)
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    output_dir = os.path.dirname(output_path)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(markdown)
 

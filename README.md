@@ -13,9 +13,9 @@
 2. Запустите:
 
 ```bash
-python /home/runner/work/portfolio/portfolio/tools/collect_org_examples.py \
+python tools/collect_org_examples.py \
   --org OOO-IT-MOLCOM \
-  --output /home/runner/work/portfolio/portfolio/examples/ooo-it-molcom-code-examples.md
+  --output examples/ooo-it-molcom-code-examples.md
 ```
 
 Скрипт сам:
