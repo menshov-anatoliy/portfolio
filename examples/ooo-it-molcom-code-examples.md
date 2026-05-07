@@ -10,6 +10,7 @@
 ## Как собрать/обновить у себя
 
 ```bash
+export GITHUB_TOKEN=your_token_here
 python tools/collect_org_examples.py \
   --org OOO-IT-MOLCOM \
   --output examples/ooo-it-molcom-code-examples.md

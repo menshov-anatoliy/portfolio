@@ -157,6 +157,7 @@ def select_snippet(content: str, snippet_lines: int) -> str:
 
 
 def choose_example_file(paths: Iterable[str]) -> str | None:
+    """Pick a representative file, preferring root-level and shorter paths."""
     prioritized = sorted(paths, key=lambda p: (p.count("/"), len(p)))
     return prioritized[0] if prioritized else None
 
@@ -197,7 +198,7 @@ def main() -> None:
     parser.add_argument("--snippet-lines", type=int, default=30, help="Maximum snippet length in lines")
     args = parser.parse_args()
 
-    token = os.getenv("GITHUB_TOKEN")
+    token = os.getenv("GITHUB_TOKEN", "").strip()
     if not token:
         raise SystemExit("GITHUB_TOKEN is required to collect organization repositories.")
 
