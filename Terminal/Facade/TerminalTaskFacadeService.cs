@@ -388,51 +388,6 @@ namespace Molcom.Terminal.Facade.Services
 				};
 			}
 
-			if (request is TerminalTaskEditImageStatePostRequest imageRequest)
-			{
-				var dataImage = Regex.Match(imageRequest.Value, "data:image/(?<type>.+?);base64,(?<data>.+)");
-
-				if (dataImage.Success == false)
-					throw new ApplicationException("Сохранение изображения. Данные не соответствуют формату.");
-
-				var base64Data = dataImage.Groups["data"].Value;
-
-				if (TryConvertFromBase64String(base64Data, out var binData) == false)
-					throw new ApplicationException("Сохранение изображения. Данные изображения не соответствуют формату BASE64.");
-
-				var fileName = $"Sn{DateTime.Now.Ticks}.{dataImage.Groups["type"].Value}";
-
-				var fullFileName = Path.Combine(directoriesOptions.Value.StoreImagePath, fileName);
-
-				await File.WriteAllBytesAsync(fullFileName, binData.ToArray());
-
-				return new TerminalTaskEditImageStatePostResponse
-				{
-					Task = task,
-					Code = imageRequest.Focused,
-					ImageUrl = fileName,
-					Forms = imageRequest.Forms,
-					Values = imageRequest.Values,
-					Actions = imageRequest.Actions,
-					Transitions = imageRequest.Transitions,
-					Sound = TerminalSoundTypesEnum.None
-				};
-
-				bool TryConvertFromBase64String(string base64, out byte[] result)
-				{
-					result = [];
-
-					var buffer = new Span<byte>(new byte[base64.Length]);
-
-					if (Convert.TryFromBase64String(base64, buffer, out var bytesWritten) == false)
-						return false;
-
-					result = buffer[..bytesWritten].ToArray();
-					return true;
-
-				}
-			}
-
 			throw new NotImplementedException();
 		}
 
