@@ -20,7 +20,6 @@ public sealed class MergePassRequestsUseCase(
 	private readonly PassRequestNameResolver _resolver = new(routeTargetGateway, directoryUserGateway);
 
 	protected override string SuccessMessage => "Заявки успешно объединены";
-	
 	protected override string FailureMessage => "Не удалось объединить заявки";
 
 	protected override Task ValidateAsync(int[] input)
@@ -50,7 +49,7 @@ public sealed class MergePassRequestsUseCase(
 		}
 
 		var hasFinalStatusRequests = children.Any(request =>
-			mutationPolicy.CanMutate(request.Status, PassRequestMutationOperation.Merge) == false);
+			mutationPolicy.CanMutate(request, PassRequestMutationOperation.Merge) == false);
 
 		if (hasFinalStatusRequests)
 		{
@@ -77,7 +76,8 @@ public sealed class MergePassRequestsUseCase(
 			MiddleName = first.MiddleName,
 			VehiclePlate = first.VehiclePlate,
 			PassDate = first.PassDate,
-			PassDateFrom = first.PassDateFrom,
+			PassDateFromUtc = first.PassDateFromUtc,
+			PassDateToUtc = first.PassDateToUtc,
 			IsGroup = true,
 			Children = children,
 		};
@@ -117,7 +117,6 @@ public sealed class MergePassRequestsUseCase(
 
 		var routeNames = await _resolver.ResolveRouteTargetNamesAsync([group]);
 		var approverNames = await _resolver.ResolveApproverNamesAsync([group]);
-		
 		return PassRequestMapper.ToDto(group, routeNames, approverNames);
 	}
 }

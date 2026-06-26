@@ -4,6 +4,9 @@ using Molcom.Services.PassOffice.Interfaces.Db;
 using Molcom.Services.PassOffice.Mappers;
 using Molcom.PassOffice.Facade.Models.Dto;
 using Molcom.Services.PassOffice.Services;
+using Molcom.Services.PassOffice.Security;
+using Molcom.Services.PassOffice.StateMachine;
+using Molcom.Services.PassOffice.UseCases.PassRequests.Validation;
 
 namespace Molcom.Services.PassOffice.UseCases.PassRequests;
 
@@ -11,8 +14,14 @@ namespace Molcom.Services.PassOffice.UseCases.PassRequests;
 public sealed class CreatePassRequestUseCase(
 	IPassRequestGateway gateway,
 	IRouteTargetGateway routeTargetGateway,
+	IPartnerGateway partnerGateway,
 	IDirectoryUserGateway directoryUserGateway,
-	IPassRequestProtocolService protocolService)
+	IContractorGateway contractorGateway,
+	ICurrentUserAccessor currentUserAccessor,
+	IApproverDisplayNameResolver approverDisplayNameResolver,
+	IApproverIdsProvider approverIdsProvider,
+	IPassRequestProtocolService protocolService,
+	IPassRequestValidationService validationService)
 	: UseCaseBase<SavePassRequestDto, PassRequestDto>
 {
 	private readonly PassRequestNameResolver _resolver = new(routeTargetGateway, directoryUserGateway);
@@ -20,15 +29,28 @@ public sealed class CreatePassRequestUseCase(
 	protected override string SuccessMessage => "Заявка успешно создана";
 	protected override string FailureMessage => "Не удалось создать заявку";
 
-	protected override Task ValidateAsync(SavePassRequestDto input)
+	protected override async Task ValidateAsync(SavePassRequestDto input)
 	{
-		PassRequestValidationRules.Apply(input, Validator);
-		return Task.CompletedTask;
+		await validationService.ValidateOnDataChange(input, Validator);
 	}
 
 	protected override async Task<PassRequestDto?> HandleAsync(SavePassRequestDto input)
 	{
 		var entity = PassRequestMapper.ToDomain(input);
+
+		var autofillResult = await PassRequestCreationAutofillStrategies.TryApplyOnCreateAsync(
+			entity,
+			routeTargetGateway,
+			partnerGateway,
+			directoryUserGateway,
+			contractorGateway,
+			currentUserAccessor,
+			approverDisplayNameResolver,
+			approverIdsProvider,
+			Validator);
+
+		if (!autofillResult)
+			return null;
 
 		var additionalData = BuildCreatedRequestAdditionalData(entity);
 

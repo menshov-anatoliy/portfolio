@@ -53,7 +53,6 @@ public sealed class GetPassRequestProtocolUseCase(
 		}
 
 		var events = await protocolService.GetByRequestIdAsync(input);
-		
 		return events.Select(PassRequestProtocolMapper.ToDto).ToList();
 	}
 }
